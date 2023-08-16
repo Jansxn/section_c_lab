@@ -73,6 +73,17 @@ void detectOperators(FILE *fd){
 			}
 		}
 
+		else if (c == '#'){
+			c = fgetc(fd);
+			col++;
+
+			while(c!='\n'){
+				col++;
+				c = fgetc(fd);
+			}
+			continue;
+		}
+
 		if (c == ' ' || c == '\t') flag = 1;
 
 		//Checking for arithmetic operators
