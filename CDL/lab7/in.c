@@ -4,6 +4,6 @@ int main(){
 	int a;
 	int k;
 	int x;
-	int sadasdda[2] ;
-	x=a+b;
+	int sadasdda[222] ;
+	a = bc s;
 }

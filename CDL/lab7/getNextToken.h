@@ -34,7 +34,7 @@ int detectOperatorsComp(FILE *fd){
 
     char buf[50];
     buf[0] = '\0';
-    if (c == EOF) programerror();
+    if (c == EOF) programerror("EOF detected to early");
 
     while (c!=EOF){
         int flag =0;

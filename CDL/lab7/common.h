@@ -27,15 +27,21 @@ int trav_ind;
 int detectOperators(FILE *fd);
 void printSymbolTable();
 token generateToken(char *lex, int row, int col);
+char * response;
 
 void programerror(){
     printf("Error on line %d, position %d! \n", row, col);
+    if (response[0] != '\0') printf("%s\n", response);
     exit(0);
 }
 
 void getNextToken(FILE *fd, char * lex){
     detectOperators(fd);
-    if (strcmp(symbol_table[trav_ind].lex, lex) != 0) programerror();
+    // printf("%s, %s\n", lex, symbol_table[trav_ind].lex);
+    if (strcmp(symbol_table[trav_ind].lex, lex) != 0) {
+        sprintf(response, "Expected %s, not %s", lex, symbol_table[trav_ind].lex);
+        programerror();
+    }
 }
 
 int checkID(char * str){
@@ -50,7 +56,8 @@ int checkID(char * str){
 
 int checkNum(char * str){
     for (int i =0; str[i]!='\0'; i++){
-        if (str[i]-'0'>=0 && str[i]-'9'<=9){
+        if (str[i]-'0'>=0 && str[i]-'9'<=0){
+            // printf("%d\n", str[i]-'9');
             continue;
         }
         else return 0;
@@ -67,8 +74,7 @@ int relop(FILE *fd){
     for (int i =0; i<6; i++){
         if (strcmp(str, rel[i]) == 0) return 1;
     }
-    // printf("%s", str);
-    // programerror();
+    sprintf(response, "Expected relational operator");
     return 0;
 }
 
@@ -80,8 +86,7 @@ int addop(FILE *fd){
     for (int i =0; i<2; i++){
         if (strcmp(str, add[i]) == 0) return 1;
     }
-    // programerror();
-    // printf("%s", str);
+    sprintf(response, "Expected additive operator");
     return 0;
 }
 
@@ -93,15 +98,18 @@ int mulop(FILE *fd){
     for (int i =0; i<3; i++){
         if (strcmp(str, mul[i]) == 0) return 1;
     }
-    // programerror();
-    // printf("%s", str);
+    sprintf(response, "Expected multiplicative operator");
     return 0;
 }
 
 int factor(FILE *fd){
     detectOperators(fd);
     char * str = symbol_table[trav_ind].lex;
-    return (checkNum(str) || checkID(str));
+    if (checkNum(str) || checkID(str)){
+        return 1;
+    }
+    sprintf(response, "Expected number or identifier");
+    return 0;
 }
 
 int tprime(FILE *fd){
@@ -170,11 +178,13 @@ int assign_stat(FILE *fd){
         if (expn(fd)) return 1;
         else return 0;
     }
+    sprintf(response, "Missing ID");
     return 0;
 }
 
 int statement(FILE * fd){
     if (assign_stat(fd)){
+        // printf("Here");
         getNextToken(fd, ";");
         return 1;
     }
@@ -273,6 +283,8 @@ int program(FILE *fd){
 }
 
 void RDParser(FILE *fd){
+    response = calloc (40, sizeof(char));
+    response[0] = '\0';
     if (program(fd)) printf("Success\n");
     else programerror();
 }
