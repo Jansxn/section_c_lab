@@ -5,7 +5,7 @@
 
 %%
 [aeiouAEIOU] {v++;}
-\n {printf("\nConstants:%d\nVowels:%d\n", c, v); return 0;}
+\n {printf("\nConstants:%d\nVowelsssss:%d\n", c, v); return 0;}
 [A-Za-z] {c++;}
 %%
 
