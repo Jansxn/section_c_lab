@@ -65,6 +65,7 @@ type: INT
     | CHAR
     | BOOLEAN
     | VOID
+    | VALID_IDENTIFIER
     ;
 
 parameters: parameter_list

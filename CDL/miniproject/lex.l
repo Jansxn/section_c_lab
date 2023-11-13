@@ -37,15 +37,16 @@ digit [0-9]
 ")"         { lastToken = strdup(yytext); return ')'; }
 ";"         { lastToken = strdup(yytext); return ';'; }
 ","         { lastToken = strdup(yytext); return ','; }
-"'"         { lastToken = strdup(yytext); return CHARACTER_LITERAL; }
-"\""        { lastToken = strdup(yytext); return STRING_LITERAL; }
+"'"{letter}"'"         { lastToken = strdup(yytext); return CHARACTER_LITERAL; }
+"\"".*"\""        { lastToken = strdup(yytext); return STRING_LITERAL; }
 
-{digit}+    { lastToken = strdup(yytext); yylval.str = strdup(yytext); return INTEGER_LITERAL; }
 {digit}+"."{digit}+    { lastToken = strdup(yytext); yylval.str = strdup(yytext); return FLOATING_POINT_LITERAL; }
+[+-]?{digit}+          { lastToken = strdup(yytext); yylval.str = strdup(yytext); return INTEGER_LITERAL; }
+[+-]?{digit}+"."{digit}+    { lastToken = strdup(yytext); yylval.str = strdup(yytext); return FLOATING_POINT_LITERAL; }
 
 {letter}({letter}|{digit})*    { lastToken = strdup(yytext); yylval.str = strdup(yytext); return VALID_IDENTIFIER; }
 
-[ \t\n]     /* skip whitespace */
+[ \t\n\r]     /* skip whitespace */
 .           { lastToken = strdup(yytext); return INTEGER_LITERAL; }
 
 %%

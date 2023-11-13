@@ -1,8 +1,11 @@
 public class ExampleClass {
-    private int privateField;
-    public double sadasdd (int param1, char param2) {
+    public int privateField;
+    public static double sadasdd (int param1, char param2) {
         double result;
         result = param1 * 2.5;
+        int a = +1;
+        char c = 'c';
+        String k = "fdjsnsjkdfn";
         return result;
     }
 
