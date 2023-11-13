@@ -1,0 +1,12 @@
+public class ExampleClass {
+    private int privateField;
+    public double sadasdd (int param1, char param2) {
+        double result;
+        result = param1 * 2.5;
+        return result;
+    }
+
+    protected boolean sadasd () {
+        return true;
+    }
+}
